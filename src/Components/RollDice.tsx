@@ -7,7 +7,6 @@ type State = {
     dice_one: number;
     dice_two: number;
   };
-  rolls: number[];
 };
 
 type DiceProps = {
@@ -24,7 +23,6 @@ class RollDice extends Component<DiceProps, State> {
 
   state: State = {
     isRolling: false,
-    rolls: [1, 2, 3, 4, 6],
     roll: {
       dice_one: this._getRoll(),
       dice_two: this._getRoll(),
@@ -43,20 +41,35 @@ class RollDice extends Component<DiceProps, State> {
       },
       isRolling: true,
     });
+
     setTimeout(() => {
       this.setState({ isRolling: false });
-    }, 1000);
+    }, 1500);
   }
 
   render(): React.ReactNode {
     return (
       <div className="flex flex-col justify-center w-full items-center h-screen ">
-        <div className="flex items-center">
-          <Die diceRoll={this.state.roll.dice_one} />
-          <Die diceRoll={this.state.roll.dice_two} />
-        </div>
+        <main className="flex mb-4">
+          <div className="mr-5">
+            <Die
+              diceRoll={this.state.roll.dice_one}
+              isRolling={this.state.isRolling}
+            />
+          </div>
+          <div>
+            <Die
+              diceRoll={this.state.roll.dice_two}
+              isRolling={this.state.isRolling}
+            />
+          </div>
+        </main>
         <button
-          className="bg-black text-sm rounded-sm  text-white"
+          className={`${
+            this.state.isRolling
+              ? 'bg-green-500 ease-in-out duration-500'
+              : 'bg-black duration-500'
+          }  text-xs  rounded-md p-4 w-[140px] text-white`}
           onClick={this.roll}
           disabled={this.state.isRolling && true}
         >
